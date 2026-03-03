@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+    Romantic Single-Page Date Invite
+    Tech: Pure HTML/CSS/JS (no frameworks)
+    Fonts: Playfair Display + Poppins (Google Fonts)
+
+    Customize:
+    - Swastika name is already set.
+    - Coffee date vibe copy is included.
+    - Background music: set AUDIO_SRC (optional).
+    - Gallery photos: replaced with your assets/ file names.
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Swastika ✦ A Little Question</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --blush: #f6c6cf;
+      --cream: #fff4e8;
+      --rose:  #f4a7b5;
+      --wine:  #7a0f1f;
+      --ink:   #201418;
+      --muted: rgba(32,20,24,.70);
+
+      --card: rgba(255, 244, 232, 0.72);
+      --border: rgba(122, 15, 31, 0.20);
+
+      --shadow-lg: 0 20px 70px rgba(32, 20, 24, 0.25);
+      --shadow-md: 0 12px 35px rgba(32, 20, 24, 0.20);
+      --shadow-sm: 0 10px 22px rgba(32, 20, 24, 0.15);
+
+      --serif: "Playfair Display", ui-serif, Georgia, serif;
+      --sans:  "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --ease-soft: cubic-bezier(.2, .8, .2, 1);
+      --dur-fast: 220ms;
+      --dur-med:  420ms;
+      --dur-slow: 900ms;
+
+      --radius: 20px;
+      --max: 1100px;
+    }
+
+    html{ scroll-behavior: smooth; }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      overflow-x: hidden;
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(246,198,207,.55), transparent 60%),
+                  radial-gradient(1200px 800px at 90% 30%, rgba(244,167,181,.35), transparent 60%),
+                  radial-gradient(1200px 900px at 50% 100%, rgba(255,244,232,.85), rgba(255,244,232,.70));
+      background-size: 140% 140%;
+      animation: bgShift 14s var(--ease-soft) infinite alternate;
+    }
+
+    @keyframes bgShift{
+      0%   { background-position: 0% 10%, 90% 40%, 50% 80%; filter: saturate(1); }
+      100% { background-position: 20% 0%, 70% 20%, 50% 100%; filter: saturate(1.08); }
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    img{ max-width: 100%; display: block; }
+
+    .container{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+    .section{ padding: 72px 0; }
+
+    .section-title{
+      font-family: var(--serif);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin: 0 0 18px;
+      font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    }
+    .section-subtitle{
+      margin: 0 0 26px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 70ch;
+      font-size: 1rem;
+    }
+    .divider{
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(122,15,31,.28), transparent);
+      margin: 26px 0 34px;
+    }
+
+    /* Floating hearts background */
+    .hearts{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+      opacity: .55;
+      mix-blend-mode: multiply;
+    }
+    .heart{
+      position: absolute;
+      bottom: -80px;
+      width: 18px;
+      height: 18px;
+      transform: rotate(45deg);
+      background: rgba(244, 167, 181, 0.30);
+      animation: floatUp linear infinite;
+      border-radius: 4px;
+    }
+    .heart::before,
+    .heart::after{
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .heart::before{ left: -9px; top: 0; }
+    .heart::after { left: 0; top: -9px; }
+
+    @keyframes floatUp{
+      0%{ transform: translateY(0) rotate(45deg) scale(0.9); opacity: 0; }
+      12%{ opacity: .9; }
+      100%{ transform: translateY(-110vh) rotate(45deg) scale(1.25); opacity: 0; }
+    }
+
+    main, footer, header { position: relative; z-index: 1; }
+
+    /* HERO */
+    .hero{
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(32,20,24,.55), rgba(32,20,24,.35) 40%, rgba(32,20,24,.55)),
+        url("assets/photo1.jpeg");
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.04);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(1200px 600px at 50% 40%, transparent 35%, rgba(0,0,0,.38));
+      pointer-events: none;
+    }
+    .hero-content{
+      text-align: center;
+      padding: 0 16px;
+      max-width: 900px;
+      color: rgba(255,255,255,.92);
+      transform: translateY(10px);
+      opacity: 0;
+      animation: heroFadeIn 1.1s var(--ease-out) .12s forwards;
+    }
+    @keyframes heroFadeIn{ to { transform: translateY(0); opacity: 1; } }
+
+    .name{
+      font-family: var(--serif);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      font-size: clamp(2.2rem, 5.8vw, 4.4rem);
+      margin: 0 0 12px;
+      text-shadow: 0 10px 35px rgba(0,0,0,.35);
+    }
+    .headline{
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: clamp(.95rem, 1.7vw, 1.15rem);
+      margin: 0 0 22px;
+      color: rgba(255,255,255,.86);
+    }
+    .hero-cta{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.24);
+      background: rgba(255,255,255,.10);
+      box-shadow: 0 16px 50px rgba(0,0,0,.22);
+      backdrop-filter: blur(10px);
+      transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+      font-weight: 500;
+    }
+    .hero-cta:hover{ transform: translateY(-2px); background: rgba(255,255,255,.14); }
+
+    .scroll-indicator{
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.80);
+      font-size: .9rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: heroIndicator 1s var(--ease-out) .9s forwards;
+    }
+    @keyframes heroIndicator{ to { opacity: 1; } }
+    .mouse{
+      width: 26px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.38);
+      position: relative;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+    }
+    .mouse::after{
+      content:"";
+      width: 5px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      animation: wheel 1.2s ease-in-out infinite;
+    }
+    @keyframes wheel{
+      0%{ transform: translateX(-50%) translateY(0); opacity: .85; }
+      100%{ transform: translateX(-50%) translateY(12px); opacity: 0; }
+    }
+
+    /* GALLERY */
+    .gallery-grid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 700px){
+      .gallery-grid{ grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    }
+    .photo-card{
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(122,15,31,.12);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
+      cursor: pointer;
+    }
+    .photo-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .photo{
+      aspect-ratio: 4 / 5;
+      width: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform var(--dur-slow) var(--ease-out);
+      filter: saturate(1.02) contrast(1.03);
+    }
+    .photo-card:hover .photo{ transform: scale(1.06); }
+    .caption{
+      padding: 12px 14px 14px;
+      font-size: .95rem;
+      color: rgba(32,20,24,.78);
+      line-height: 1.5;
+      background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,244,232,.92));
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.68);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      z-index: 50;
+    }
+    .lightbox[aria-hidden="false"]{ display: flex; }
+    .lightbox-dialog{
+      width: min(980px, 100%);
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255, 244, 232, 0.94);
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: 0 40px 120px rgba(0,0,0,.45);
+      transform: translateY(10px);
+      opacity: 0;
+      animation: popIn .28s var(--ease-out) forwards;
+    }
+    @keyframes popIn{ to{ transform: translateY(0); opacity: 1; } }
+    .lightbox-media img{
+      width: 100%;
+      height: min(70svh, 640px);
+      object-fit: cover;
+    }
+    .lightbox-bar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-top: 1px solid rgba(122,15,31,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,244,232,.95));
+    }
+    .lightbox-caption{
+      color: rgba(32,20,24,.78);
+      font-size: .95rem;
+      line-height: 1.4;
+    }
+    .icon-btn{
+      appearance: none;
+      border: 1px solid rgba(122,15,31,.20);
+      background: rgba(255,255,255,.60);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+      font-weight: 600;
+    }
+    .icon-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.78); }
+
+    /* REASONS */
+    .reasons-grid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 800px){
+      .reasons-grid{ grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .reasons-grid .reason-card:nth-child(1){ grid-column: span 2; }
+      .reasons-grid .reason-card:nth-child(4){ grid-column: span 2; }
+    }
+    .reason-card{
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid rgba(122,15,31,.14);
+      box-shadow: var(--shadow-sm);
+      padding: 18px 18px 16px;
+      backdrop-filter: blur(10px);
+
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+    }
+    .reason-card.in-view{ opacity: 1; transform: translateY(0); }
+    .reason-kicker{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(122,15,31,.78);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .dot{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--wine);
+      box-shadow: 0 0 0 6px rgba(122,15,31,.08);
+    }
+    .reason-title{
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      margin: 0 0 6px;
+      letter-spacing: .01em;
+    }
+    .reason-text{
+      margin: 0;
+      color: rgba(32,20,24,.72);
+      line-height: 1.75;
+      font-size: .98rem;
+    }
+
+    /* BIG QUESTION */
+    .question-wrap{ display: grid; place-items: center; }
+    .question-card{
+      width: min(760px, 100%);
+      border-radius: 26px;
+      background: rgba(255, 244, 232, 0.78);
+      border: 1px solid rgba(122,15,31,.18);
+      box-shadow: var(--shadow-lg);
+      padding: 22px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .question-card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(700px 260px at 10% 0%, rgba(246,198,207,.55), transparent 60%),
+                  radial-gradient(700px 260px at 90% 100%, rgba(122,15,31,.10), transparent 60%);
+      pointer-events: none;
+    }
+    .question-inner{ position: relative; z-index: 1; }
+    .question-title{
+      font-family: var(--serif);
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      letter-spacing: 0.01em;
+    }
+    .question-desc{
+      margin: 0 0 18px;
+      color: rgba(32,20,24,.72);
+      line-height: 1.75;
+      max-width: 65ch;
+    }
+    .btn-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+      padding-top: 8px;
+    }
+    .btn{
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-family: var(--sans);
+      font-weight: 600;
+      transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-yes{
+      background: linear-gradient(135deg, #8c1226, #c2183a);
+      color: rgba(255,255,255,.95);
+      padding: 14px 22px;
+      box-shadow: 0 16px 40px rgba(122,15,31,.35), 0 0 0 0 rgba(194,24,58,.28);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-yes::after{
+      content:"";
+      position:absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%);
+      transform: translateX(-30%);
+      transition: transform 900ms var(--ease-out);
+    }
+    .btn-yes:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 20px 55px rgba(122,15,31,.40), 0 0 0 10px rgba(194,24,58,.10);
+    }
+    .btn-yes:hover::after{ transform: translateX(18%); }
+
+    .btn-time{
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(122,15,31,.18);
+      color: rgba(32,20,24,.85);
+      padding: 10px 14px;
+      font-weight: 600;
+      position: relative;
+    }
+
+    /* MODAL */
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      z-index: 60;
+    }
+    .modal[aria-hidden="false"]{ display: flex; }
+    .modal-card{
+      width: min(680px, 100%);
+      border-radius: 26px;
+      background: rgba(255, 244, 232, 0.95);
+      border:  1px solid rgba(122,15,31,.18);
+      box-shadow: 0 40px 120px rgba(0,0,0,.40);
+      overflow: hidden;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: popIn .28s var(--ease-out) forwards;
+    }
+    .modal-head{
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(122,15,31,.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(180deg, rgba(246,198,207,.32), rgba(255,244,232,.86));
+    }
+    .modal-title{
+      font-family: var(--serif);
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: .01em;
+    }
+    .modal-body{
+      padding: 16px 18px 18px;
+      color: rgba(32,20,24,.76);
+      line-height: 1.8;
+    }
+
+    /* CONFETTI */
+    canvas#confetti{
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 70;
+      display: none;
+    }
+    canvas#confetti.active{ display: block; }
+
+    /* FOOTER */
+    footer{ padding: 34px 0 42px; color: rgba(32,20,24,.70); }
+    .footer-line{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+      font-size: .98rem;
+    }
+    .mini-heart{
+      width: 12px;
+      height: 12px;
+      transform: rotate(45deg);
+      background: rgba(122,15,31,.65);
+      position: relative;
+      border-radius: 3px;
+      animation: heartPulse 1.6s ease-in-out infinite;
+      box-shadow: 0 10px 28px rgba(122,15,31,.15);
+    }
+    .mini-heart::before, .mini-heart::after{
+      content:"";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .mini-heart::before{ left: -6px; top: 0; }
+    .mini-heart::after { left: 0; top: -6px; }
+    @keyframes heartPulse{
+      0%, 100%{ transform: rotate(45deg) scale(1); }
+      50%{ transform: rotate(45deg) scale(1.15); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      body{ animation: none; }
+      .heart{ animation: none; display: none; }
+      .mouse::after{ animation: none; }
+      .mini-heart{ animation: none; }
+      .reason-card{ opacity: 1; transform: none; transition: none; }
+      .hero-content{ opacity: 1; transform: none; animation: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" aria-hidden="true" id="heartsLayer"></div>
+  <canvas id="confetti"></canvas>
+
+  <header class="hero" id="top">
+    <div class="hero-content">
+      <h1 class="name">Swastika</h1>
+      <p class="headline">I Have Something Important To Ask You...</p>
+
+      <a class="hero-cta" href="#gallery" aria-label="Scroll to the gallery">
+        <span>Scroll with me</span>
+        <span aria-hidden="true">↓</span>
+      </a>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="mouse"></div>
+      <div>Scroll</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="gallery">
+      <div class="container">
+        <h2 class="section-title">Little Moments I Love</h2>
+        <p class="section-subtitle">
+          A few snapshots that feel like warm light — the kind that stays with you.
+        </p>
+        <div class="divider"></div>
+
+        <div class="gallery-grid" id="galleryGrid">
+          <figure class="photo-card" tabindex="0"
+            data-full="assets/photo2.jpeg"
+            data-caption="That smile that makes everything quieter.">
+            <img class="photo"
+              src="assets/photo2.jpeg"
+              alt="Gallery photo 1" loading="lazy">
+            <figcaption class="caption">That smile that makes everything quieter.</figcaption>
+          </figure>
+
+          <figure class="photo-card" tabindex="0"
+            data-full="assets/photo3jpeg"
+            data-caption="The kind of glow you don’t need to explain.">
+            <img class="photo"
+              src="assets/photo3jpeg"
+              alt="Gallery photo 2" loading="lazy">
+            <figcaption class="caption">The kind of glow you don’t need to explain.</figcaption>
+          </figure>
+
+          <figure class="photo-card" tabindex="0"
+            data-full="assets/photo4jpeg"
+            data-caption="Soft moments, strong feelings.">
+            <img class="photo"
+              src="assets/photo4jpeg"
+              alt="Gallery photo 3" loading="lazy">
+            <figcaption class="caption">Soft moments, strong feelings.</figcaption>
+          </figure>
+
+          <figure class="photo-card" tabindex="0"
+            data-full="assets/photo5jpeg"
+            data-caption="Every detail somehow becomes prettier.">
+            <img class="photo"
+              src="assets/photo5jpeg"
+              alt="Gallery photo 4" loading="lazy">
+            <figcaption class="caption">Every detail somehow becomes prettier.</figcaption>
+          </figure>
+
+          <figure class="photo-card" tabindex="0"
+            data-full="assets/photo6jpeg"
+            data-caption="A calm that feels like home.">
+            <img class="photo"
+              src="assets/photo6jpeg"
+              alt="Gallery photo 5" loading="lazy">
+            <figcaption class="caption">A calm that feels like home.</figcaption>
+          </figure>
+
+          <!-- Repeat last photo if you don't have more (keeps grid balanced) -->
+          <figure class="photo-card" tabindex="0"
+            data-full="assets/photo1jpeg"
+            data-caption="The way you turn ordinary into unforgettable.">
+            <img class="photo"
+              src="assets/photo1jpeg"
+              alt="Gallery photo 6" loading="lazy">
+            <figcaption class="caption">The way you turn ordinary into unforgettable.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image lightbox">
+      <div class="lightbox-dialog" role="document">
+        <div class="lightbox-media">
+          <img id="lightboxImg" alt="Expanded photo">
+        </div>
+        <div class="lightbox-bar">
+          <div class="lightbox-caption" id="lightboxCaption"></div>
+          <button class="icon-btn" id="lightboxClose" type="button" aria-label="Close lightbox">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="reasons">
+      <div class="container">
+        <h2 class="section-title">A Few Reasons (Out of Many)</h2>
+        <p class="section-subtitle">
+          Some truths I keep noticing — quietly, consistently, and with a lot of admiration.
+        </p>
+        <div class="divider"></div>
+
+        <div class="reasons-grid">
+          <article class="reason-card reveal">
+            <div class="reason-kicker"><span class="dot"></span> Grace</div>
+            <h3 class="reason-title">You have effortless elegance.</h3>
+            <p class="reason-text">The way you carry yourself feels calm, confident, and genuinely you.</p>
+          </article>
+
+          <article class="reason-card reveal">
+            <div class="reason-kicker"><span class="dot"></span> Warmth</div>
+            <h3 class="reason-title">You make people feel comfortable.</h3>
+            <p class="reason-text">Even a simple conversation with you feels easy and real.</p>
+          </article>
+
+          <article class="reason-card reveal">
+            <div class="reason-kicker"><span class="dot"></span> Spark</div>
+            <h3 class="reason-title">You make ordinary days brighter.</h3>
+            <p class="reason-text">Somehow the smallest moments feel better when you’re around.</p>
+          </article>
+
+          <article class="reason-card reveal">
+            <div class="reason-kicker"><span class="dot"></span> Heart</div>
+            <h3 class="reason-title">You’re genuinely kind.</h3>
+            <p class="reason-text">Not loud. Not forced. Just consistent and thoughtful.</p>
+          </article>
+
+          <article class="reason-card reveal">
+            <div class="reason-kicker"><span class="dot"></span> Coffee</div>
+            <h3 class="reason-title">You’d be my favorite coffee date.</h3>
+            <p class="reason-text">One cozy café, two cups, and a conversation I won’t want to end.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="question">
+      <div class="container question-wrap">
+        <div class="question-card">
+          <div class="question-inner">
+            <h2 class="question-title">Will you go on a coffee date with me?</h2>
+            <p class="question-desc">
+              Something simple and sweet — a cozy café, good coffee, and a calm moment where it’s just us.
+            </p>
+
+            <div class="btn-row" id="btnRow">
+              <button class="btn btn-yes" id="btnYes" type="button">YES ✦</button>
+              <button class="btn btn-time" id="btnTime" type="button">I need time</button>
+            </div>
+
+            <p class="question-desc" style="margin-top:14px; font-size:.95rem;">
+              If you click “YES”, I have a little surprise.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Romantic message">
+    <div class="modal-card" role="document">
+      <div class="modal-head">
+        <h3 class="modal-title">Swastika… you just made me smile.</h3>
+        <button class="icon-btn" id="modalClose" type="button" aria-label="Close message">Close</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-line">
+        <span>Made with intention</span>
+        <span class="mini-heart" aria-hidden="true"></span>
+        <span>and a little courage.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Floating hearts
+    (function initHearts(){
+      const layer = document.getElementById('heartsLayer');
+      const HEARTS = 16;
+      for (let i = 0; i < HEARTS; i++){
+        const h = document.createElement('div');
+        h.className = 'heart';
+        const size = rand(10, 22);
+        h.style.left = rand(0, 100) + 'vw';
+        h.style.width = size + 'px';
+        h.style.height = size + 'px';
+        h.style.animationDuration = rand(9, 18) + 's';
+        h.style.animationDelay = rand(0, 10) + 's';
+        h.style.background = `rgba(244, 167, 181, ${rand(0.18, 0.38)})`;
+        layer.appendChild(h);
+      }
+    })();
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const galleryGrid = document.getElementById('galleryGrid');
+
+    function openLightbox(src, caption){
+      lightboxImg.src = src;
+      lightboxCaption.textContent = caption || '';
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    galleryGrid.addEventListener('click', (e) => {
+      const card = e.target.closest('.photo-card');
+      if (!card) return;
+      openLightbox(card.dataset.full, card.dataset.caption);
+    });
+    galleryGrid.addEventListener('keydown', (e) => {
+      const card = e.target.closest('.photo-card');
+      if (!card) return;
+      if (e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openLightbox(card.dataset.full, card.dataset.caption);
+      }
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+
+    // Modal
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(messageHtml){
+      modalBody.innerHTML = messageHtml;
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // ESC closes
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape'){
+        if (lightbox.getAttribute('aria-hidden') === 'false') closeLightbox();
+        if (modal.getAttribute('aria-hidden') === 'false') closeModal();
+      }
+    });
+
+    // "I need time" dodges a few times, then becomes clickable
+    const btnTime = document.getElementById('btnTime');
+    const btnRow = document.getElementById('btnRow');
+    let dodgesLeft = 6;
+
+    function dodgeButton(){
+      if (dodgesLeft <= 0) return;
+
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = btnTime.getBoundingClientRect();
+
+      const maxX = Math.max(0, rowRect.width - btnRect.width);
+      const maxY = 28;
+
+      const x = Math.random() * maxX;
+      const y = (Math.random() * maxY) - (maxY / 2);
+
+      btnTime.style.transform = `translate(${x}px, ${y}px)`;
+      dodgesLeft -= 1;
+
+      if (dodgesLeft <= 0){
+        setTimeout(() => { btnTime.style.transform = 'translate(0,0)'; }, 400);
+      }
+    }
+
+    btnTime.addEventListener('mouseenter', dodgeButton);
+    btnTime.addEventListener('touchstart', (e) => {
+      if (dodgesLeft > 0){
+        e.preventDefault();
+        dodgeButton();
+      }
+    }, { passive: false });
+
+    btnTime.addEventListener('click', () => {
+      openModal(`
+        <p style="margin:0 0 10px;"><strong>That’s completely okay.</strong></p>
+        <p style="margin:0 0 10px;">
+          Take your time, Swastika. If you ever feel like it, we can keep it simple:
+          coffee, a quiet corner, and a good conversation.
+        </p>
+        <p style="margin:0;">No rush. Just honesty. 🤍</p>
+      `);
+    });
+
+    // YES: confetti + modal + music
+    const btnYes = document.getElementById('btnYes');
+
+    const AUDIO_SRC = ""; // Example: "assets/music.mp3"
+    const bgAudio = new Audio();
+    bgAudio.loop = true;
+    bgAudio.volume = 0.35;
+
+    btnYes.addEventListener('click', async () => {
+      startConfetti();
+
+      if (AUDIO_SRC){
+        try{
+          if (bgAudio.src !== AUDIO_SRC) bgAudio.src = AUDIO_SRC;
+          await bgAudio.play();
+        }catch(err){
+          console.warn("Audio play blocked:", err);
+        }
+      }
+
+      openModal(`
+        <p style="margin:0 0 10px;">Okay… I’m officially smiling.</p>
+        <p style="margin:0 0 10px;">
+          Let’s do a proper coffee date—somewhere cozy, with a little time to talk and laugh.
+        </p>
+        <p style="margin:0;">
+          Just tell me what day works for you, Swastika… and I’ll handle the rest.
+          <span style="color: rgba(122,15,31,.85); font-weight:600;">Promise.</span>
+        </p>
+      `);
+    });
+
+    // Confetti (canvas)
+    const confettiCanvas = document.getElementById('confetti');
+    const ctx = confettiCanvas.getContext('2d');
+
+    let confettiPieces = [];
+    let confettiTimer = null;
+    let rafId = null;
+
+    function resizeCanvas(){
+      confettiCanvas.width = Math.floor(window.innerWidth * devicePixelRatio);
+      confettiCanvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+      confettiCanvas.style.width = window.innerWidth + "px";
+      confettiCanvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function startConfetti(){
+      confettiCanvas.classList.add('active');
+      confettiPieces = [];
+
+      const COUNT = 180;
+      const colors = [
+        "rgba(246,198,207,.95)",
+        "rgba(255,244,232,.95)",
+        "rgba(122,15,31,.90)",
+        "rgba(244,167,181,.95)"
+      ];
+
+      for (let i = 0; i < COUNT; i++){
+        confettiPieces.push({
+          x: Math.random() * window.innerWidth,
+          y: -20 - Math.random() * 300,
+          w: 6 + Math.random() * 6,
+          h: 10 + Math.random() * 10,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: -2 + Math.random() * 4,
+          vy:  2 + Math.random() * 5.5,
+          rot: Math.random() * Math.PI,
+          vr:  -0.15 + Math.random() * 0.3
+        });
+      }
+
+      if (confettiTimer) clearTimeout(confettiTimer);
+      confettiTimer = setTimeout(() => stopConfetti(), 5200);
+
+      if (rafId) cancelAnimationFrame(rafId);
+      animateConfetti();
+    }
+
+    function stopConfetti(){
+      confettiCanvas.classList.remove('active');
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      confettiPieces = [];
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
+    function animateConfetti(){
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      const gravity = 0.06;
+      for (const p of confettiPieces){
+        p.vy += gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      }
+
+      confettiPieces = confettiPieces.filter(p => p.y < window.innerHeight + 60);
+
+      if (confettiPieces.length > 0){
+        rafId = requestAnimationFrame(animateConfetti);
+      } else {
+        stopConfetti();
+      }
+    }
+  </script>
+</body>
+</html>
